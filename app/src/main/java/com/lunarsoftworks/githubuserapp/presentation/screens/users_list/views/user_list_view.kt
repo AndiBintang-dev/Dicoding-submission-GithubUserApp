@@ -5,9 +5,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,11 +38,23 @@ fun UserListView(
       topBar = { AppTopBar(
           actions = {
               IconButton(
-                  content = { Icon(
-                      Icons.Filled.Favorite,
-                      contentDescription = null,
-                      tint = Color.White
-                  ) },
+                  content = {
+                      Row(
+                          verticalAlignment = Alignment.CenterVertically
+                      ) {
+                          Icon(
+                              Icons.Filled.List,
+                              contentDescription = null,
+                              tint = Color.White,
+                              modifier = Modifier.size(height = 18.dp, width = 18.dp)
+                          )
+                          Icon(
+                              Icons.Filled.Favorite,
+                              contentDescription = null,
+                              tint = Color.White,
+                          )
+                      }
+                  },
                   onClick = {}
               )
               IconButton(
@@ -94,32 +104,15 @@ fun UserListView(
                 CircularProgressIndicator()
             }
 
-            when (searchController.value.text) {
-                "" -> {
-                    LazyColumn (
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(state.users) {
-                            UserCard(
-                                data = it,
-                                onPressed = { navController.navigate(Routes.UserDetailViewRoute.route + "/${it.login}") }
-                            )
-                        }
-                    }
-                }
-                else -> {
-                    LazyColumn (
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(state.searchedUser?.items ?: emptyList() ) {
-                            UserCard(
-                                data = it,
-                                onPressed = { navController.navigate(Routes.UserDetailViewRoute.route + "/${it.id}") }
-                            )
-                        }
-                    }
+            LazyColumn (
+                contentPadding = PaddingValues(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(state.users) {
+                    UserCard(
+                        data = it,
+                        onPressed = { navController.navigate(Routes.UserDetailViewRoute.route + "/${it.login}") }
+                    )
                 }
             }
 

@@ -8,5 +8,7 @@ data class UserDetailState(
     val user: UserDto = UserDto(),
     val followers: List<UsersListDto> = emptyList(),
     val following: List<UsersListDto> = emptyList(),
+    val isFavorite : Boolean = true,
+    val eventStatus : Int = 0,
     val error: String = ""
 )

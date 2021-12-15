@@ -57,6 +57,7 @@ android {
 
 dependencies {
 
+    // Auto generated dependencies by IDE
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
@@ -95,7 +96,13 @@ dependencies {
     implementation("io.coil-kt:coil-compose:$coilVersion")
     implementation("io.coil-kt:coil-compose:$coilVersion")
 
+    // SharedPreferences
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
+    // Android Rooms
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
 }

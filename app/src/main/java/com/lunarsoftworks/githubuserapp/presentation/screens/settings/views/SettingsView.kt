@@ -1,6 +1,6 @@
 package com.lunarsoftworks.githubuserapp.presentation.screens.settings.views
 
-import android.app.Activity
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,18 +10,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.lunarsoftworks.githubuserapp.MainActivity
 import com.lunarsoftworks.githubuserapp.common.Constant
 import com.lunarsoftworks.githubuserapp.presentation.shared_composables.AppTopBar
 import com.lunarsoftworks.githubuserapp.presentation.shared_viewmodels.ThemeViewmodel
 
 @Composable
 fun SettingView(
-    activity: Activity,
+    activity: MainActivity,
     navController: NavController,
     viewModel: ThemeViewmodel = hiltViewModel()
 ) {
 
     val state = viewModel.state
+
+    viewModel.status.observe( activity , {
+        if (it == true) {
+            Toast.makeText(activity.applicationContext, "Silahkan restart aplikasi anda untuk melihat perubahan.", Toast.LENGTH_SHORT).show()
+        }
+    })
 
     val scrollableState = rememberScrollState()
 
@@ -53,10 +60,7 @@ fun SettingView(
             Row {
                 RadioButton(
                     selected = state.value.selectedTheme == Constant.lightThemeValue,
-                    onClick = {
-                        viewModel.setSelectedTheme(Constant.lightThemeValue)
-                        activity.recreate()
-                    },
+                    onClick = { viewModel.setSelectedTheme(Constant.lightThemeValue) },
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -70,10 +74,7 @@ fun SettingView(
             Row {
                 RadioButton(
                     selected = state.value.selectedTheme == Constant.darkThemeValue,
-                    onClick = {
-                        viewModel.setSelectedTheme(Constant.darkThemeValue)
-                        activity.recreate()
-                    },
+                    onClick = { viewModel.setSelectedTheme(Constant.darkThemeValue) },
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(

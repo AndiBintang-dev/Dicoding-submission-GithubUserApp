@@ -37,7 +37,7 @@ class UsersListsViewModel @Inject constructor(
         searchUserUseCase(username = username).onEach {
           result -> when (result) {
                 is Resource.Success -> {
-                    _state.value = UsersListsState(searchedUser = result.data )
+                    _state.value = UsersListsState(users = result.data?.items ?: emptyList() )
                 }
                 is Resource.Error -> {
                     _state.value = UsersListsState(

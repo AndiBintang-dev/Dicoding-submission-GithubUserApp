@@ -1,12 +1,13 @@
 package com.lunarsoftworks.githubuserapp.dependency_injection
 
 import android.content.Context
+import androidx.room.Room
+import com.lunarsoftworks.githubuserapp.common.Constant
+import com.lunarsoftworks.githubuserapp.data.databases.AppDatabase
+import com.lunarsoftworks.githubuserapp.data.local.FavoriteUsersService
 import com.lunarsoftworks.githubuserapp.data.local.ThemeService
 import com.lunarsoftworks.githubuserapp.data.remote.GithubService
-import com.lunarsoftworks.githubuserapp.domain.repositories.GithubRepository
-import com.lunarsoftworks.githubuserapp.domain.repositories.GithubRepositoryImpl
-import com.lunarsoftworks.githubuserapp.domain.repositories.ThemeRepository
-import com.lunarsoftworks.githubuserapp.domain.repositories.ThemeRepositoryImpl
+import com.lunarsoftworks.githubuserapp.domain.repositories.*
 import dagger.hilt.components.SingletonComponent
 import dagger.Module
 import dagger.Provides
@@ -40,6 +41,20 @@ object AppModule {
     @Singleton
     fun provideThemeRepository(service: ThemeService) : ThemeRepository {
         return ThemeRepositoryImpl(service = service)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteUsersService(@ApplicationContext context: Context) : FavoriteUsersService {
+        return Room.databaseBuilder(
+            context, AppDatabase::class.java, Constant.favoriteUserTableName
+        ).build().favoriteUsersDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteUserRepository(service: FavoriteUsersService) : FavoriteUserRepository {
+        return  FavoriteUserRepositoryImpl(service)
     }
 
 }

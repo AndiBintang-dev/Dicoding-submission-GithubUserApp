@@ -1,60 +1,63 @@
-// To parse the JSON, install kotlin's serialization plugin and do:
-//
-// val json     = Json(JsonConfiguration.Stable)
-// val usersDto = json.parse(UsersDto.serializer(), jsonString)
-
 package com.lunarsoftworks.githubuserapp.data.dto
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.lunarsoftworks.githubuserapp.common.Constant
 import kotlinx.serialization.*
 
 @Serializable
+@Entity(tableName = Constant.favoriteUserTableName)
 data class UsersListDto (
-    val login: String,
-    val id: Long,
+
+    @PrimaryKey val id: Long,
+
+    @ColumnInfo val login: String,
 
     @SerialName("node_id")
-    val nodeID: String,
+    @ColumnInfo val nodeID: String,
 
     @SerialName("avatar_url")
-    val avatarURL: String,
+    @ColumnInfo val avatarURL: String,
 
     @SerialName("gravatar_id")
-    val gravatarID: String,
+    @ColumnInfo val gravatarID: String,
 
-    val url: String,
+    @ColumnInfo val url: String,
 
     @SerialName("html_url")
-    val htmlURL: String,
+    @ColumnInfo val htmlURL: String,
 
     @SerialName("followers_url")
-    val followersURL: String,
+    @ColumnInfo val followersURL: String,
 
     @SerialName("following_url")
-    val followingURL: String,
+    @ColumnInfo val followingURL: String,
 
     @SerialName("gists_url")
-    val gistsURL: String,
+    @ColumnInfo val gistsURL: String,
 
     @SerialName("starred_url")
-    val starredURL: String,
+    @ColumnInfo val starredURL: String,
 
     @SerialName("subscriptions_url")
-    val subscriptionsURL: String,
+    @ColumnInfo val subscriptionsURL: String,
 
     @SerialName("organizations_url")
-    val organizationsURL: String,
+    @ColumnInfo val organizationsURL: String,
 
     @SerialName("repos_url")
-    val reposURL: String,
+    @ColumnInfo val reposURL: String,
 
     @SerialName("events_url")
-    val eventsURL: String,
+    @ColumnInfo val eventsURL: String,
 
     @SerialName("received_events_url")
-    val receivedEventsURL: String,
+    @ColumnInfo val receivedEventsURL: String,
 
-    val type: String,
+    @ColumnInfo val type: String,
 
     @SerialName("site_admin")
-    val siteAdmin: Boolean
+    @ColumnInfo val siteAdmin: Boolean
+
 )

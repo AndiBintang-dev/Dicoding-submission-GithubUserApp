@@ -11,6 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -50,10 +51,20 @@ fun UserDetailsView(
                 useBackButton = true,
                 backButtonOnClick = { navController.popBackStack() },
                 actions = {
-                    IconButton(
-                        content = { Icon(Icons.Rounded.Favorite, contentDescription = "") },
-                        onClick = {  }
-                    )
+                    when (state.isFavorite) {
+                        true -> {
+                            IconButton(
+                                content = { Icon(Icons.Rounded.Favorite, contentDescription = "", tint = Color.White) },
+                                onClick = {  }
+                            )
+                        }
+                        else -> {
+                            IconButton(
+                                content = { Icon(Icons.Rounded.FavoriteBorder, contentDescription = "", tint = Color.White) },
+                                onClick = { viewModel.insertFavorite() }
+                            )
+                        }
+                    }
                 }
             )
         }
@@ -98,14 +109,14 @@ fun UserDetailsView(
 
                 Text(
                     text = when (state.user.name) {
-                        "null" -> state.user.login.toString()
+                        null -> state.user.login.toString()
                         else -> state.user.name.toString()
                     },
                     style = MaterialTheme.typography.h6,
                 )
                 Text(
                     text = when (state.user.login) {
-                        "null" -> ""
+                        null -> ""
                         else -> state.user.login.toString()
                     },
                     style = MaterialTheme.typography.subtitle1,
@@ -167,7 +178,10 @@ fun UserDetailsView(
                         )
                         Spacer(modifier = Modifier.width(12.dp) )
                         Text(
-                            text = state.user.company.toString(),
+                            text = when (state.user.company) {
+                                null -> "-"
+                                else -> state.user.company.toString()
+                            },
                             style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
                         )
                     }
@@ -179,7 +193,10 @@ fun UserDetailsView(
                         )
                         Spacer(modifier = Modifier.width(12.dp) )
                         Text(
-                            text = state.user.location.toString(),
+                            text = when (state.user.location) {
+                                null -> "-"
+                                else -> state.user.location.toString()
+                            },
                             style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
                         )
                     }
@@ -191,7 +208,10 @@ fun UserDetailsView(
                         )
                         Spacer(modifier = Modifier.width(12.dp) )
                         Text(
-                            text = state.user.publicRepos.toString(),
+                            text = when (state.user.publicRepos) {
+                                null -> "-"
+                                else -> state.user.publicRepos.toString()
+                            },
                             style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
                         )
                     }

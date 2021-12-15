@@ -83,4 +83,30 @@ data class UserDto (
     @SerialName("updated_at")
     val updatedAt: String? = "",
 
-)
+) {
+
+    fun toUserListDto() : UsersListDto {
+        return  UsersListDto(
+            id = id ?: 0,
+            login = login ?: "",
+            nodeID = nodeID ?: "",
+            avatarURL = avatarURL ?: "",
+            gravatarID = gravatarID ?: "",
+            url = url ?: "",
+            htmlURL = htmlURL ?: "",
+            followersURL = followersURL ?: "",
+            followingURL = followingURL ?: "",
+            gistsURL = gistsURL ?: "",
+            starredURL = starredURL ?: "",
+            subscriptionsURL = subscriptionsURL ?: "",
+            organizationsURL = organizationsURL ?: "",
+            reposURL = reposURL ?: "",
+            eventsURL = eventsURL ?: "",
+            receivedEventsURL =  receivedEventsURL ?: "",
+            type = type ?: "",
+            siteAdmin = siteAdmin ?: false,
+        )
+    }
+
+}
+

@@ -1,11 +1,14 @@
 package com.lunarsoftworks.githubuserapp.presentation.theme
 
 import android.app.Activity
+import android.widget.Toast
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.lunarsoftworks.githubuserapp.MainActivity
 import com.lunarsoftworks.githubuserapp.common.Constant
 import com.lunarsoftworks.githubuserapp.presentation.shared_viewmodels.ThemeViewmodel
 

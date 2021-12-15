@@ -5,6 +5,7 @@ import androidx.compose.material.Colors
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lunarsoftworks.githubuserapp.common.Constant
@@ -27,6 +28,8 @@ class ThemeViewmodel @Inject constructor(
 
     private val _state = mutableStateOf( ThemeState() )
     val state : State<ThemeState> = _state
+
+    var status = MutableLiveData<Boolean?>(false)
 
     init {
         viewModelScope.launch {
@@ -56,12 +59,14 @@ class ThemeViewmodel @Inject constructor(
             result -> when (result) {
                 is Resource.Success -> {
                     _state.value = ThemeState(selectedTheme = result.data.toString() )
+                    status.value = false
                 }
                 is Resource.Error -> {
                     _state.value = ThemeState(error = result.message ?: "An unexpected error occured.")
                 }
                 is Resource.Loading -> {
                     _state.value = ThemeState(isLoading = true)
+                    status.value = true
                 }
             }
         }.launchIn(viewModelScope)
