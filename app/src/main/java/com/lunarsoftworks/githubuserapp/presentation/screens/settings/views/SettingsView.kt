@@ -17,18 +17,11 @@ import com.lunarsoftworks.githubuserapp.presentation.shared_viewmodels.ThemeView
 
 @Composable
 fun SettingView(
-    activity: MainActivity,
     navController: NavController,
     viewModel: ThemeViewmodel = hiltViewModel()
 ) {
 
     val state = viewModel.state
-
-    viewModel.status.observe( activity , {
-        if (it == true) {
-            Toast.makeText(activity.applicationContext, "Silahkan restart aplikasi anda untuk melihat perubahan.", Toast.LENGTH_SHORT).show()
-        }
-    })
 
     val scrollableState = rememberScrollState()
 

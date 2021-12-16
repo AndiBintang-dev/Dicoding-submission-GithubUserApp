@@ -8,15 +8,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.lunarsoftworks.githubuserapp.presentation.screens.users_details.viewmodels.UserDetailViewmodel
 import com.lunarsoftworks.githubuserapp.presentation.screens.users_details.viewmodels.UserFollowingViewmodel
 import com.lunarsoftworks.githubuserapp.presentation.shared_composables.UserCard
 
 @Composable
 fun FollowingFragment(
-    viewModel: UserFollowingViewmodel = hiltViewModel()
+    viewModel: UserDetailViewmodel = hiltViewModel()
 ) {
-    val state = viewModel.state
-    if (viewModel.state.value.isLoading) {
+    val state = viewModel.followingState
+    if (state.value.isLoading) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

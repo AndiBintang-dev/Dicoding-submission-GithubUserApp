@@ -48,7 +48,7 @@ object AppModule {
     fun provideFavoriteUsersService(@ApplicationContext context: Context) : FavoriteUsersService {
         return Room.databaseBuilder(
             context, AppDatabase::class.java, Constant.favoriteUserTableName
-        ).build().favoriteUsersDao
+        ).allowMainThreadQueries().build().favoriteUsersDao
     }
 
     @Provides

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.lunarsoftworks.githubuserapp.Routes
+import com.lunarsoftworks.githubuserapp.presentation.screens.users_details.viewmodels.UserDetailViewmodel
 import com.lunarsoftworks.githubuserapp.presentation.screens.users_list.viewmodels.UsersListsViewModel
 import com.lunarsoftworks.githubuserapp.presentation.shared_composables.AppTopBar
 import com.lunarsoftworks.githubuserapp.presentation.shared_composables.UserCard
@@ -27,10 +28,11 @@ import com.lunarsoftworks.githubuserapp.presentation.shared_composables.UserCard
 @Composable
 fun UserListView(
     navController: NavController,
-    viewModel: UsersListsViewModel = hiltViewModel()
+    userListViewModel: UsersListsViewModel = hiltViewModel(),
+    userDetailViewModel: UserDetailViewmodel = hiltViewModel(),
 ) {
 
-    val state = viewModel.state.value
+    val state = userListViewModel.state.value
 
     val searchController = remember { mutableStateOf(TextFieldValue()) }
 
@@ -55,7 +57,7 @@ fun UserListView(
                           )
                       }
                   },
-                  onClick = {}
+                  onClick = { navController.navigate(Routes.UserFavoriteViewRoute.route) }
               )
               IconButton(
                   content = { Icon(
@@ -87,7 +89,7 @@ fun UserListView(
                   imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
-                    onDone = { viewModel.searchUser(searchController.value.text) }
+                    onDone = { userListViewModel.searchUser(searchController.value.text) }
                 ),
                 trailingIcon = {
                     IconButton(
@@ -95,12 +97,12 @@ fun UserListView(
                             Icons.Filled.Search,
                             contentDescription = null,
                         ) },
-                        onClick = { viewModel.searchUser(searchController.value.text) }
+                        onClick = { userListViewModel.searchUser(searchController.value.text) }
                     )
                 },
             )
 
-            if (viewModel.state.value.isLoading) {
+            if (userListViewModel.state.value.isLoading) {
                 CircularProgressIndicator()
             }
 
@@ -111,7 +113,10 @@ fun UserListView(
                 items(state.users) {
                     UserCard(
                         data = it,
-                        onPressed = { navController.navigate(Routes.UserDetailViewRoute.route + "/${it.login}") }
+                        onPressed = {
+                            userDetailViewModel.getUserDetail(it.login)
+                            navController.navigate(Routes.UserDetailViewRoute.route)
+                        }
                     )
                 }
             }

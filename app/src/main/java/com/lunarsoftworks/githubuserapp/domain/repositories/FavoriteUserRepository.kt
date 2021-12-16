@@ -6,9 +6,9 @@ interface FavoriteUserRepository {
 
     suspend fun getAllFavorites() : List<UsersListDto>
 
-    suspend fun insertFavorite(vararg user: UsersListDto) : Int
+    suspend fun insertFavorite(vararg user: UsersListDto)
 
-    suspend fun delete(user: UsersListDto) : Int
+    suspend fun delete(user: UsersListDto)
 
     suspend fun isFavorite(userId : Long) : Boolean
 

@@ -72,6 +72,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02"
 
     // Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.
     def ktorVersion = "1.6.6"

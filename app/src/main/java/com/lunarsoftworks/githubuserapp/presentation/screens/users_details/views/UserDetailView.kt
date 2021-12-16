@@ -4,8 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -27,7 +25,6 @@ import coil.compose.rememberImagePainter
 import com.lunarsoftworks.githubuserapp.presentation.screens.users_details.composables.TabItem
 import com.lunarsoftworks.githubuserapp.presentation.screens.users_details.viewmodels.UserDetailViewmodel
 import com.lunarsoftworks.githubuserapp.presentation.shared_composables.AppTopBar
-import com.lunarsoftworks.githubuserapp.presentation.shared_composables.UserCard
 
 @Composable
 fun UserDetailsView(
@@ -35,7 +32,7 @@ fun UserDetailsView(
     viewModel: UserDetailViewmodel = hiltViewModel()
 ) {
 
-    val state = viewModel.state.value
+    val state = viewModel.detailState.value
 
     val tabList = listOf(
         TabItem.Follower,
@@ -55,7 +52,7 @@ fun UserDetailsView(
                         true -> {
                             IconButton(
                                 content = { Icon(Icons.Rounded.Favorite, contentDescription = "", tint = Color.White) },
-                                onClick = {  }
+                                onClick = { viewModel.deleteFavorite() }
                             )
                         }
                         else -> {
@@ -70,7 +67,7 @@ fun UserDetailsView(
         }
     ) {
 
-        if (viewModel.state.value.isLoading) {
+        if (viewModel.detailState.value.isLoading) {
 
             Column(
                 modifier = Modifier
@@ -97,7 +94,7 @@ fun UserDetailsView(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Image(
-                    painter = rememberImagePainter(data = state.user.avatarURL),
+                    painter = rememberImagePainter(data = state?.user?.avatarURL),
                     contentDescription = null,
                     modifier = Modifier
                         .size(112.dp)
@@ -108,14 +105,14 @@ fun UserDetailsView(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
-                    text = when (state.user.name) {
-                        null -> state.user.login.toString()
+                    text = when (state?.user?.name) {
+                        null -> state?.user?.login.toString()
                         else -> state.user.name.toString()
                     },
                     style = MaterialTheme.typography.h6,
                 )
                 Text(
-                    text = when (state.user.login) {
+                    text = when (state?.user?.login) {
                         null -> ""
                         else -> state.user.login.toString()
                     },
@@ -125,9 +122,9 @@ fun UserDetailsView(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
-                    text = when (state.user.bio) {
+                    text = when (state?.user?.bio) {
                         null -> "no bio provided."
-                        else -> state.user.bio.toString()
+                        else -> state?.user?.bio.toString()
                     },
                     style = MaterialTheme.typography.body1,
                 )
@@ -142,7 +139,7 @@ fun UserDetailsView(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = state.user.followers.toString(),
+                            text = state?.user?.followers.toString(),
                             style = MaterialTheme.typography.subtitle1,
                         )
                         Text(
@@ -154,7 +151,7 @@ fun UserDetailsView(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = state.user.following.toString(),
+                            text = state?.user?.following.toString(),
                             style = MaterialTheme.typography.subtitle1,
                         )
                         Text(
@@ -178,9 +175,9 @@ fun UserDetailsView(
                         )
                         Spacer(modifier = Modifier.width(12.dp) )
                         Text(
-                            text = when (state.user.company) {
+                            text = when (state?.user?.company) {
                                 null -> "-"
-                                else -> state.user.company.toString()
+                                else -> state?.user.company.toString()
                             },
                             style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
                         )
@@ -193,7 +190,7 @@ fun UserDetailsView(
                         )
                         Spacer(modifier = Modifier.width(12.dp) )
                         Text(
-                            text = when (state.user.location) {
+                            text = when (state?.user?.location) {
                                 null -> "-"
                                 else -> state.user.location.toString()
                             },
@@ -208,9 +205,9 @@ fun UserDetailsView(
                         )
                         Spacer(modifier = Modifier.width(12.dp) )
                         Text(
-                            text = when (state.user.publicRepos) {
+                            text = when (state?.user?.publicRepos) {
                                 null -> "-"
-                                else -> state.user.publicRepos.toString()
+                                else -> state?.user.publicRepos.toString()
                             },
                             style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
                         )
@@ -232,8 +229,8 @@ fun UserDetailsView(
                 }
                 Spacer(modifier = Modifier.height(12.dp))
                 when (tabState.value) {
-                    0 -> FollowerFragment()
-                    1 -> FollowingFragment()
+                    0 -> FollowerFragment(viewModel = viewModel)
+                    1 -> FollowingFragment(viewModel = viewModel)
                 }
 
             }

@@ -13,17 +13,17 @@ class InsertFavoriteUseCase @Inject constructor(
     private val repository: FavoriteUserRepository
 ) {
 
-    operator fun invoke(user : UsersListDto) : Flow<Resource<Int>> = flow {
+    operator fun invoke(user : UsersListDto) : Flow<Resource<Unit>> = flow {
         try {
-            emit( Resource.Loading<Int>() )
-            val status : Int = repository.insertFavorite(user)
-            emit( Resource.Success<Int>(status) )
+            emit( Resource.Loading<Unit>() )
+            val status = repository.insertFavorite(user)
+            emit( Resource.Success<Unit>(status) )
         }
         catch (error: HttpRequestTimeoutException) {
-            emit( Resource.Error<Int>("An unexpected error occured.") )
+            emit( Resource.Error<Unit>("An unexpected error occured.") )
         }
         catch (error: IOException) {
-            emit( Resource.Error<Int>("Couldn't reach server. Check your internet connection.") )
+            emit( Resource.Error<Unit>("Couldn't reach server. Check your internet connection.") )
         }
     }
 

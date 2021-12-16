@@ -13,17 +13,17 @@ class DeleteFavoriteUseCase @Inject constructor(
     private val repository: FavoriteUserRepository
 ) {
 
-    operator fun invoke(user : UsersListDto) : Flow<Resource<UsersListDto>> = flow {
+    operator fun invoke(user : UsersListDto) : Flow<Resource<Unit>> = flow {
         try {
-            emit( Resource.Loading<UsersListDto>() )
-            val status : Int = repository.delete(user)
-            emit( Resource.Success<UsersListDto>(user) )
+            emit( Resource.Loading<Unit>() )
+            val status = repository.delete(user)
+            emit( Resource.Success<Unit>(status) )
         }
         catch (error: HttpRequestTimeoutException) {
-            emit( Resource.Error<UsersListDto>("An unexpected error occured.") )
+            emit( Resource.Error<Unit>("An unexpected error occured.") )
         }
         catch (error: IOException) {
-            emit( Resource.Error<UsersListDto>("Couldn't reach server. Check your internet connection.") )
+            emit( Resource.Error<Unit>("Couldn't reach server. Check your internet connection.") )
         }
     }
 

@@ -2,7 +2,7 @@ package com.lunarsoftworks.githubuserapp.common
 
 object Constant {
 
-    const val myToken = "token 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"
+    const val myToken = "token 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"
 
     const val themeSharedPreference = "THEME_SHARED_PREFERENCE"
     const val lightThemeValue = "LIGHT_THEME"

@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import coil.compose.rememberImagePainter
 import com.lunarsoftworks.githubuserapp.data.dto.UsersListDto
 
@@ -23,10 +25,11 @@ fun UserCard(data : UsersListDto, onPressed: () -> Unit) {
             .fillMaxWidth()
             .clickable(onClick = onPressed)
     ) {
-        Row (
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(all = 12.dp)
+        ConstraintLayout (
+            Modifier.padding(8.dp)
         ) {
+            val (Image, Spacer, Column) = createRefs()
+
             Image(
                 painter = rememberImagePainter(data = data.avatarURL),
                 contentDescription = null,
@@ -34,14 +37,28 @@ fun UserCard(data : UsersListDto, onPressed: () -> Unit) {
                     .size(56.dp)
                     .clip(CircleShape)
                     .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
+                    .constrainAs(Image) {
+                        this.start.linkTo(parent.start)
+                    }
             )
+
             Spacer(
-                Modifier.width(8.dp)
+                Modifier.width(8.dp).constrainAs(Spacer) {
+                    this.start.linkTo(Image.end)
+                    this.end.linkTo(Column.start)
+                }
             )
-            Column {
+
+            Column(
+                Modifier.constrainAs(Column) {
+                    this.start.linkTo(Spacer.end)
+                }
+            ) {
                 Text(text = data.login, style = MaterialTheme.typography.subtitle1)
                 Text(text = data.url, style = MaterialTheme.typography.subtitle2)
             }
+
         }
+
     }
 }

@@ -11,11 +11,11 @@ class FavoriteUserRepositoryImpl(
         return service.getAllFavorites()
     }
 
-    override suspend fun insertFavorite(vararg user: UsersListDto) : Int {
+    override suspend fun insertFavorite(vararg user: UsersListDto) {
         return service.insertFavorite(user = user)
     }
 
-    override suspend fun delete(user: UsersListDto) : Int {
+    override suspend fun delete(user: UsersListDto) {
         return service.delete(user = user)
     }
 
